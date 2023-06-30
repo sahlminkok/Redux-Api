@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./App.css";
+import { getUsers } from "./redux/users/usersSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users.usersList);
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {users.map((user, index) => (
+        <div key={index}>
+          <p>
+            Name: {user.name.first} {user.name.last}
+          </p>
+        </div>
+      ))}
     </div>
   );
 }
